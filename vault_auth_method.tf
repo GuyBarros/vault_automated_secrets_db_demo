@@ -5,16 +5,31 @@ resource "vault_auth_backend" "userpass" {
   type = "userpass"
 }
 
-resource "vault_generic_endpoint" "users" {
+resource "vault_generic_endpoint" "admin_users" {
   depends_on           = [vault_auth_backend.userpass]
   for_each             = vault_auth_backend.userpass
   namespace            = each.value.namespace
-  path                 = "auth/userpass/users/TestUser"
+  path                 = "auth/userpass/users/admin_user"
   ignore_absent_fields = true
 
   data_json = <<EOT
 {
-  "policies": ["${trimprefix(each.value.namespace, "admin/")}_policy"],
+  "policies": ["${trimprefix(each.value.namespace, "admin/")}_admin_policy"],
+  "password": "changeme"
+}
+EOT
+}
+
+resource "vault_generic_endpoint" "readonly_users" {
+  depends_on           = [vault_auth_backend.userpass]
+  for_each             = vault_auth_backend.userpass
+  namespace            = each.value.namespace
+  path                 = "auth/userpass/users/readonly_user"
+  ignore_absent_fields = true
+
+  data_json = <<EOT
+{
+  "policies": ["${trimprefix(each.value.namespace, "admin/")}_readonly_policy"],
   "password": "changeme"
 }
 EOT
