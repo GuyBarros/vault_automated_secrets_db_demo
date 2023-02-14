@@ -43,7 +43,7 @@ resource "vault_kv_secret_v2" "secrets" {
     for_each = vault_mount.Secondkvv2
     namespace                 = trimsuffix(each.value.namespace, "/")
   mount                      = each.value.path
-  name                       = "Hierarchical/Secret/example"
+  name                       = "Customers/${uuid()}/System1"
   cas                        = 1
   delete_all_versions        = true
   data_json                  = jsonencode(
@@ -58,7 +58,7 @@ resource "vault_kv_secret_v2" "secrets" {
       owner = var.secret_owner_name ,
       phone = var.secret_owner_phone
       department_code = var.secret_owner_department_code
-      is_boolean = var.secret_owner_department_boolean
+      
     }
   }
 }
@@ -83,7 +83,7 @@ resource "vault_kv_secret_v2" "IT-Secrets" {
       owner = var.secret_owner_name ,
       phone = var.secret_owner_phone
       department_code = var.secret_owner_department_code
-      is_boolean = var.secret_owner_department_boolean
+      
     }
   }
 }
@@ -108,7 +108,7 @@ resource "vault_kv_secret_v2" "Engineering-Secrets" {
       owner = var.secret_owner_name ,
       phone = var.secret_owner_phone
       department_code = var.secret_owner_department_code
-      is_boolean = var.secret_owner_department_boolean
+      
     }
   }
 }

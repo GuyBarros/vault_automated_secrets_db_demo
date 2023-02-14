@@ -7,7 +7,7 @@ variable "namespaces" {
 variable "secret_count" {
   description = "how many secrets should be created"
   type        = number
-  default     = 10
+  default     = 100
 }
 
 variable "secret_owner_name" {
